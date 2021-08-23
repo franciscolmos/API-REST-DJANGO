@@ -8,6 +8,7 @@ from profiles_api import permissions
 from profiles_api import serializers
 from profiles_api import models
 
+
 class UserProfileViewSet(viewsets.ModelViewSet):
     """MANEJO DE CREADO, BORRADO Y ACTUALIZADO DE PERFILES DE USUARIO"""
     serializer_class = serializers.UserProfileSerializer
