@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from profiles_api import views
 
 router = DefaultRouter()
-router.register('profile', views.UserProfileViewSet)
+router.register('profile', views.UserProfileViewSet, basename="profiles")
 router.register('feed', views.UserProfileFeedViewSet)
 
 urlpatterns = [
