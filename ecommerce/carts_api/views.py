@@ -29,15 +29,13 @@ class CartItemViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         print(user)
-        cart = self.request.query_params.get('cart')
-        print(cart)
+        query_param_cart = self.request.query_params.get('cart')
+        print(query_param_cart)
         if user.is_superuser:
             return models.CartItem.objects.all()
-        else:
-            if cart:
-                if models.Cart.objects.get(id=cart).user == user:
-                    return models.CartItem.objects.filter(cart__user=user)
-                else:
-                    raise PermissionDenied({"message": "You don't have permission to access"})
-            else:
-                raise PermissionDenied({"message": "please select a cart"})
+        carts = models.Cart.objects.filter(user=user)
+        if query_param_cart:
+            carts = carts.filter(id=query_param_cart)
+        if carts.last():
+            return carts.last().cartItems.all()
+        return self.queryset.none()

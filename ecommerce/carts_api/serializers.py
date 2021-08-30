@@ -9,8 +9,12 @@ class CartItemSerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
-    cartItems = serializers.StringRelatedField(many=True)
-    print("cartItems: ", cartItems)
+    cartItems = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='cartItems-detail'
+    )
+    """print("cartItems: ", cartItems)"""
 
     class Meta:
         model = models.Cart

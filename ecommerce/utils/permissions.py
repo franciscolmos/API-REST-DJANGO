@@ -1,7 +1,7 @@
 from rest_framework import permissions
 
 
-class CategoryPermissions(permissions.BasePermission):
+class EditorPermissions(permissions.BasePermission):
     """Solo el user R00T puede crear, editar categorias"""
 
     def has_permission(self, request, view):
