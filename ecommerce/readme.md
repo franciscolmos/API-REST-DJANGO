@@ -2,12 +2,15 @@
 
 ## PASOS PARA LEVANTAR PROYECTO
 
-* ###Instalar __*requirimientos*__
+* Instalar __*requirimientos*__
+
   `$ pip install -r requirements.txt`
-* ###Levantar servidor
+
+* Levantar servidor
+
     `$ python manage.py runserver`
 ## COMO PROBAR LOS ENDPOINTS
 
-* ###Importar la siguiente coleccion de request
+* Importar la siguiente coleccion de request
   * [DJANO-API-REST-POSTMAN-COLLECTION](https://github.com/franciscolmos/API-REST-DJANGO/blob/dev/ecommerce/assets/API-REST-DJANGO.postman_collection.json)
  
