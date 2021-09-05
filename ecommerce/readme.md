@@ -9,5 +9,5 @@
 ## COMO PROBAR LOS ENDPOINTS
 
 * ###Importar la siguiente coleccion de request
-  * [DJANO-API-REST-POSTMAN-COLLECTION](ecommerce/assets/API-REST-DJANGO.postman_collection.json)
+  * [DJANO-API-REST-POSTMAN-COLLECTION](https://github.com/franciscolmos/API-REST-DJANGO/blob/dev/ecommerce/assets/API-REST-DJANGO.postman_collection.json)
  
