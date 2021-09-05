@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Category(models.Model):
-    title = models.TextField(max_length=255, default="Pelotas")
+    title = models.TextField(max_length=255, default="none")
     description = models.TextField(default="", blank=True)
 
     def __str__(self):

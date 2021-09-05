@@ -1,9 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
-from carts_api import permissions
 from carts_api import serializers
 from carts_api import models
-from rest_framework.exceptions import PermissionDenied
 
 
 class CartViewSet(viewsets.ModelViewSet):
@@ -14,7 +12,6 @@ class CartViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        print("user---------------->: ", user)
         if user.is_superuser:
             return models.Cart.objects.all()
         return models.Cart.objects.filter(user=user)

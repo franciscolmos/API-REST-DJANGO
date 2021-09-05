@@ -14,7 +14,6 @@ class CartSerializer(serializers.ModelSerializer):
         read_only=True,
         view_name='cartItems-detail'
     )
-    """print("cartItems: ", cartItems)"""
 
     class Meta:
         model = models.Cart
