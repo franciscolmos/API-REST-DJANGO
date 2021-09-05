@@ -25,9 +25,7 @@ class CartItemViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        print(user)
         query_param_cart = self.request.query_params.get('cart')
-        print(query_param_cart)
         if user.is_superuser:
             return models.CartItem.objects.all()
         carts = models.Cart.objects.filter(user=user)

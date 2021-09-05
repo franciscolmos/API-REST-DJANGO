@@ -3,6 +3,7 @@ from carts_api import models
 
 
 class CartItemSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = models.CartItem
         fields = ['product', 'cart', 'quantity', 'subTotal']
