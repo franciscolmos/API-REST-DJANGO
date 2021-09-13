@@ -36,14 +36,16 @@ class CartItemViewSet(viewsets.ModelViewSet):
             carts = carts.filter(id=query_param_cart)
             print(carts)
         if carts.last():
-            return carts.last().cartItems.all()
+            return carts.last().items.all()
         return self.queryset.none()
 
     def create(self, request, *args, **kwargs):
         user = request.user
         product_id = request.data['product']
         quantity = request.data['quantity']
-        cart_item = carts_models.CartItem.objects.create(product=products_models.Product.objects.get(id=product_id),
-                                                         quantity=quantity,
-                                                         cart=carts_models.Cart.objects.get(user=user))
+        print(request.data)
+        item, created = carts_models.CartItem.objects.get_or_create(product_id=product_id,
+                                                                    cart=carts_models.Cart.objects.get(user=user))
+        item.quantity += int(quantity)
+        item.save()
         return Response(status=status.HTTP_200_OK, data=request.data)

@@ -10,7 +10,7 @@ class Cart(models.Model):
     @property
     def total(self):
         total = 0
-        for itemCart in CartItem.objects.filter(cart=self):
+        for itemCart in self.items.all():
             total += itemCart.subtotal
         return total
 
@@ -19,9 +19,9 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
-    product = models.ForeignKey(productModel.Product, on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cartItems', default=0)
-    quantity = models.IntegerField()
+    product = models.ForeignKey(productModel.Product, on_delete=models.CASCADE, related_name='sales')
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items', default=0)
+    quantity = models.IntegerField(default=0)
     subtotal = models.FloatField(default=0)
 
     def save(self, *args, **kwargs):

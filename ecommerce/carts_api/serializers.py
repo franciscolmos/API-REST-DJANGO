@@ -10,7 +10,7 @@ class CartItemSerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
-    cartItems = serializers.HyperlinkedRelatedField(
+    items = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
         view_name='cartItems-detail'
@@ -18,4 +18,4 @@ class CartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Cart
-        fields = ['user', 'status', 'cartItems', 'total']
+        fields = ['user', 'status', 'items', 'total']
