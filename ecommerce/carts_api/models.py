@@ -7,24 +7,28 @@ class Cart(models.Model):
     user = models.ForeignKey(userProfileModel.UserProfile, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
 
-    def __str__(self):
-        return "{} ({})".format(self.user.email, self.status)
-
     @property
     def total(self):
         total = 0
         for itemCart in CartItem.objects.filter(cart=self):
-            total += itemCart.price * itemCart.amount
+            total += itemCart.subtotal
         return total
+
+    def __str__(self):
+        return "{} ({})".format("Carrito de compras de ", self.user.email, self.status)
 
 
 class CartItem(models.Model):
     product = models.ForeignKey(productModel.Product, on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cartItems')
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cartItems', default=0)
     quantity = models.IntegerField()
-    subTotal = models.FloatField()
+    subtotal = models.FloatField(default=0)
+
+    def save(self, *args, **kwargs):
+        self.subtotal = self.product.unitPrice * self.quantity
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'title: {self.product.title} ' \
                f'quantity: {self.quantity} ' \
-               f'subTotal: {self.subTotal} '
+               f'sub_total: {self.subtotal} '

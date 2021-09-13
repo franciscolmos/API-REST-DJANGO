@@ -6,7 +6,7 @@ class CartItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.CartItem
-        fields = ['product', 'cart', 'quantity', 'subTotal']
+        fields = ['product', 'cart', 'quantity', 'subtotal']
 
 
 class CartSerializer(serializers.ModelSerializer):
@@ -18,4 +18,4 @@ class CartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Cart
-        fields = ['user', 'status', 'cartItems']
+        fields = ['user', 'status', 'cartItems', 'total']
