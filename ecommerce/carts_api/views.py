@@ -60,7 +60,7 @@ class CartItemViewSet(viewsets.ModelViewSet):
         if last_cart_status is True:
             new_cart = CartViewSet(viewsets.ModelViewSet)
             CartViewSet.create(new_cart, request)
-        """Validamos que halla stock del producto que se quiere anadir al carro"""
+        """Validamos que haya stock del producto que se quiere anadir al carro"""
         """product_stock = Product.objects.get(pk=product_id).stock
         if product_stock < quantity:
             return Response(status=status.HTTP_400_BAD_REQUEST, data={"Status": "400", "Message": "No hay stock disponible del producto"})"""
