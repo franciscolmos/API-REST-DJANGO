@@ -13,7 +13,6 @@ class Product(models.Model):
         sales = 0 if not sales else sales
         purchases = self.purchases.aggregate(total=models.Sum('quantity')).get('total')
         purchases = 0 if not purchases else purchases
-        print("purchases - sales: ", purchases - sales)
         return purchases - sales
 
     def __str__(self):
@@ -24,4 +23,6 @@ class Purchase(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='purchases')
     quantity = models.SmallIntegerField(default=0)
     unit_price = models.FloatField(default=0)
+
+
 

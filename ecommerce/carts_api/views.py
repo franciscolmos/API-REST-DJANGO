@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from carts_api.serializers import CartItemSerializer, CartSerializer
 from carts_api import models as carts_models
+from products_api.models import Product
 
 
 class CartViewSet(viewsets.ModelViewSet):
@@ -59,6 +60,10 @@ class CartItemViewSet(viewsets.ModelViewSet):
         if last_cart_status is True:
             new_cart = CartViewSet(viewsets.ModelViewSet)
             CartViewSet.create(new_cart, request)
+        """Validamos que halla stock del producto que se quiere anadir al carro"""
+        """product_stock = Product.objects.get(pk=product_id).stock
+        if product_stock < quantity:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={"Status": "400", "Message": "No hay stock disponible del producto"})"""
         """Si el item existe le sumamos la cantidad, caso contrario se agrega nuevo item con su respectiva cantidad"""
         last_cart = carts_models.Cart.objects.filter(user=user).last()
         item, created = carts_models.CartItem.objects.get_or_create(product_id=product_id,

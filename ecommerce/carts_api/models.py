@@ -1,10 +1,10 @@
 from django.db import models
-from profiles_api import models as userProfileModel
-from products_api import models as productModel
+from profiles_api.models import UserProfile
+from products_api.models import Product
 
 
 class Cart(models.Model):
-    user = models.ForeignKey(userProfileModel.UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
 
     @property
@@ -15,9 +15,9 @@ class Cart(models.Model):
         return total
 
     def __str__(self):
-        return f'Carrito de compras de : {self.user.email}, ' \
-               f'Estado : {self.status}, ' \
-               f'Id : {self.id} ' \
+        return f'Carrito de compras de: {self.user.email}, ' \
+               f'Estado: {self.status}, ' \
+               f'Id: {self.id} ' \
 
 
     def get_status(self):
@@ -25,7 +25,7 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
-    product = models.ForeignKey(productModel.Product, on_delete=models.CASCADE, related_name='sales')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='sales')
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items', default=0)
     quantity = models.IntegerField(default=0)
     subtotal = models.FloatField(default=0)
