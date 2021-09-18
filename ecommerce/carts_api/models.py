@@ -15,7 +15,13 @@ class Cart(models.Model):
         return total
 
     def __str__(self):
-        return "{} ({})".format("Carrito de compras de ", self.user.email, self.status)
+        return f'Carrito de compras de : {self.user.email}, ' \
+               f'Estado : {self.status}, ' \
+               f'Id : {self.id} ' \
+
+
+    def get_status(self):
+        return self.status
 
 
 class CartItem(models.Model):

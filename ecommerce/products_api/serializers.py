@@ -5,6 +5,8 @@ from products_api import models
 class ProductSerializer(serializers.ModelSerializer):
     """Serializes a Product object"""
 
+    stock = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = models.Product
-        fields = '__all__'
+        fields = ['id', 'title', 'unitPrice', 'category', 'stock']

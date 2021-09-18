@@ -7,6 +7,9 @@ from django.conf import settings
 class UserProfileManager(BaseUserManager):
     """MANAGER DE PERFILES DE USUARIOS"""
 
+    def get_user_id(self):
+        return self.id
+
     def create_user(self, email, name, password=None):
         """CREAR UN NUEVO USUARIO"""
         if not email:
