@@ -3,31 +3,31 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework import status
 from carts_api.serializers import CartItemSerializer, CartSerializer
-from carts_api import models as carts_models
+from carts_api.models import Cart, CartItem
 from products_api.models import Product
 
 
 class CartViewSet(viewsets.ModelViewSet):
-    queryset = carts_models.Cart.objects.all()
+    queryset = Cart.objects.all()
     authentication_classes = (TokenAuthentication,)
     serializer_class = CartSerializer
 
     def get_queryset(self):
         user = self.request.user
         if user.is_superuser:
-            return carts_models.Cart.objects.all()
-        return carts_models.Cart.objects.filter(user=user)
+            return Cart.objects.all()
+        return Cart.objects.filter(user=user)
 
     def create(self, request, *args, **kwargs):
         """Permite crear un nuevo carrito"""
         user = request.user
-        created = carts_models.Cart.objects.create(user=user)
+        created = Cart.objects.create(user=user)
         created.save()
         return Response(status=status.HTTP_200_OK, data={"Status": "OK", "Message": "Carrito creado con exito"})
 
 
 class CartItemViewSet(viewsets.ModelViewSet):
-    queryset = carts_models.CartItem.objects.all()
+    queryset = CartItem.objects.all()
     authentication_classes = (TokenAuthentication,)
     serializer_class = CartItemSerializer
     permission_classes = []
@@ -37,8 +37,8 @@ class CartItemViewSet(viewsets.ModelViewSet):
         query_param_cart = self.request.query_params.get('cart')
         print(query_param_cart)
         if user.is_superuser:
-            return carts_models.CartItem.objects.all()
-        carts = carts_models.Cart.objects.filter(user=user)
+            return CartItem.objects.all()
+        carts = Cart.objects.filter(user=user)
         if query_param_cart:
             carts = carts.filter(id=query_param_cart)
             print(carts)
@@ -47,27 +47,46 @@ class CartItemViewSet(viewsets.ModelViewSet):
         return self.queryset.none()
 
     def create(self, request, *args, **kwargs):
+        """Permite agregar items al carrito"""
         user = request.user
         product_id = request.data['product']
         quantity = request.data['quantity']
-        exist_cart = carts_models.Cart.objects.filter(user=user).last()
+        exist_cart = Cart.objects.filter(user=user).last()
         """Chequeamos si existe algun carrito"""
         if not exist_cart:
             new_cart = CartViewSet(viewsets.ModelViewSet)
             CartViewSet.create(new_cart, request)
         """Chequeamos si el ultimo carrito esta cerrado"""
-        last_cart_status = carts_models.Cart.get_status(exist_cart)
+        last_cart_status = Cart.get_status(exist_cart)
         if last_cart_status is True:
             new_cart = CartViewSet(viewsets.ModelViewSet)
             CartViewSet.create(new_cart, request)
         """Validamos que haya stock del producto que se quiere anadir al carro"""
-        """product_stock = Product.objects.get(pk=product_id).stock
+        product_stock = Product.objects.get(pk=product_id).stock
         if product_stock < quantity:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data={"Status": "400", "Message": "No hay stock disponible del producto"})"""
+            return Response(status=status.HTTP_200_OK, data={"Status": "200", "Message": "No hay stock suficiente del producto para satisfacer este pedido"})
         """Si el item existe le sumamos la cantidad, caso contrario se agrega nuevo item con su respectiva cantidad"""
-        last_cart = carts_models.Cart.objects.filter(user=user).last()
-        item, created = carts_models.CartItem.objects.get_or_create(product_id=product_id,
-                                                                    cart=carts_models.Cart.objects.get(pk=last_cart.id))
+        last_cart = Cart.objects.filter(user=user).last()
+        item, created = CartItem.objects.get_or_create(product_id=product_id,
+                                                       cart=Cart.objects.get(pk=last_cart.id))
         item.quantity += int(quantity)
         item.save()
         return Response(status=status.HTTP_200_OK, data=request.data)
+
+    def put(self, request):
+        """Permite cerrar y comprar los items del carrito"""
+        user = request.user
+        last_cart = Cart.objects.filter(user=user).last()
+        items = last_cart.items.all()
+        """Se fija si los items del carrito tienen suficiente stock"""
+        for item in items:
+            product_stock = Product.objects.get(pk=item.id).stock
+            """print("item.quantity: ", item.quantity)
+            print("product_stock: ", product_stock)"""
+            if item.quantity > product_stock:
+                print("No hay suficiente cantidad del producto ", Product.objects.get(pk=item.id).title)
+                return Response(status=status.HTTP_400_BAD_REQUEST,
+                                data={"Status": "400", "Message": "No hay stock disponible del producto"})
+        """Cambia el estado del carrito para cerrarlo"""
+        last_cart.status = True
+        return Response(status=status.HTTP_200_OK, data={"OK"})

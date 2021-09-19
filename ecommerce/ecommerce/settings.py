@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'profiles_api',
     'categories_api',
     'carts_api',
+    'purchases_api',
     'django_extensions',
 ]
 

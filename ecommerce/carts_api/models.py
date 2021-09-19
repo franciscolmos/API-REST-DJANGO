@@ -37,4 +37,4 @@ class CartItem(models.Model):
     def __str__(self):
         return f'title: {self.product.title} ' \
                f'quantity: {self.quantity} ' \
-               f'sub_total: {self.subtotal} '
+               f'sub_total: {self.subtotal}'
