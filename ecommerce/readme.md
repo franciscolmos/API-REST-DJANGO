@@ -5,6 +5,11 @@
 * Instalar __*requirimientos*__
 
   `$ pip install -r requirements.txt`
+* Hacer las migraciones
+
+  `$ python manage.py makemigrations`
+
+  `$ python manage.py migrate`
 
 * Levantar servidor
 
