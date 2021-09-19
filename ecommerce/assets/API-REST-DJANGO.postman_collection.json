@@ -49,6 +49,69 @@
 					"response": []
 				},
 				{
+					"name": "new user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"benjamin test\",\n    \"email\": \"benjamin@test.com\",\n    \"password\": \"test123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profile/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Feed",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status_text\": \"test user\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/feed/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"feed",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "All profiles",
 					"request": {
 						"auth": {
@@ -84,13 +147,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{url}}/profile/2",
+							"raw": "{{url}}/profile/4",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"profile",
-								"2"
+								"4"
 							],
 							"query": [
 								{
@@ -151,42 +214,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Feed",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"status_text\": \"test user\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/feed/",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"feed",
-								""
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -206,7 +233,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Muñecas2\",\n    \"description\": \"Incluye barbies2\"\n}",
+							"raw": "{\n    \"title\": \"HotWheels\",\n    \"description\": \"Autitos coleccionables\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -292,18 +319,18 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Token ff43eceecb72e676c683856e3afe1e3f865f1f0a",
+								"value": "{{token}}",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "{{url}}/categories/15/",
+							"raw": "{{url}}/categories/17/",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"categories",
-								"15",
+								"17",
 								""
 							]
 						}
@@ -319,7 +346,13 @@
 					"name": "add product",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"title\": \"Rompecabezas 1000 piezas\",\n    \"unitPrice\": 3300,\n    \"category\": 6\n}",
@@ -392,13 +425,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{url}}/products/4",
+							"raw": "{{url}}/products/5",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"products",
-								"4"
+								"5"
 							]
 						}
 					},
@@ -437,12 +470,70 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/products/13/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"products",
+								"13",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
 			"name": "CARTS_API",
 			"item": [
+				{
+					"name": "new cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/carts/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"carts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "add item to cart",
 					"request": {
@@ -456,7 +547,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"product\": 1,\n    \"quantity\": 1,\n    \"subTotal\": 1700\n}",
+							"raw": "{\n    \"product\": 2,\n    \"quantity\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -464,13 +555,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/cartItems/1/",
+							"raw": "{{url}}/cartItems/",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"cartItems",
-								"1",
 								""
 							],
 							"query": [
@@ -496,6 +586,123 @@
 							}
 						],
 						"url": {
+							"raw": "{{url}}/carts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cart detail all items",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/cartItems",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cartItems"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cart detail all items from one cart",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/cartItems",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cartItems"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "car detail one item",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "cart",
+								"value": "2",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/cartItems/9",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cartItems",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/cartItems/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cartItems",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "close cart",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
 							"raw": "{{url}}/carts/",
 							"host": [
 								"{{url}}"
@@ -507,9 +714,80 @@
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "PURCHASES_API",
+			"item": [
+				{
+					"name": "make purchase",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product\": 5,\n    \"purchase_price\": 10000,\n    \"quantity\": 50,\n    \"supplier\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/purchase/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"purchase",
+								""
+							]
+						}
+					},
+					"response": []
 				},
 				{
-					"name": "cart detail",
+					"name": "new supplier",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Lalo Salamanca\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/supplier/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"supplier",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all suppliers",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -520,14 +798,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{url}}/cartItems/2/",
+							"raw": "{{url}}/supplier",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"cartItems",
-								"2",
-								""
+								"supplier"
 							]
 						}
 					},

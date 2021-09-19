@@ -25,6 +25,26 @@ class CartViewSet(viewsets.ModelViewSet):
         created.save()
         return Response(status=status.HTTP_200_OK, data={"Status": "OK", "Message": "Carrito creado con exito"})
 
+    def put(self, request):
+        """Permite cerrar y comprar los items del carrito"""
+        user = request.user
+        last_cart = Cart.objects.filter(user=user).last()
+        if last_cart.status is True:
+            return Response(status=status.HTTP_200_OK, data={"Status": "OK", "Message": "El carrito ya se encuentra cerrado"})
+        items = last_cart.items.all()
+        """Se fija si los items del carrito tienen suficiente stock"""
+        for item in items:
+            product_stock = Product.objects.get(pk=item.id).stock
+            """print("item.quantity: ", item.quantity)
+            print("product_stock: ", product_stock)"""
+            if item.quantity > product_stock:
+                print("No hay suficiente cantidad del producto ", Product.objects.get(pk=item.id).title)
+                return Response(status=status.HTTP_200_OK,
+                                data={"Status": "OK", "Message": "No hay stock disponible del producto"})
+        """Cambia el estado del carrito para cerrarlo"""
+        Cart.objects.filter(pk=last_cart.id).update(status=True)
+        return Response(status=status.HTTP_200_OK, data={"Status": "OK", "Message": "Carrito cerrado"})
+
 
 class CartItemViewSet(viewsets.ModelViewSet):
     queryset = CartItem.objects.all()
@@ -72,21 +92,3 @@ class CartItemViewSet(viewsets.ModelViewSet):
         item.quantity += int(quantity)
         item.save()
         return Response(status=status.HTTP_200_OK, data=request.data)
-
-    def put(self, request):
-        """Permite cerrar y comprar los items del carrito"""
-        user = request.user
-        last_cart = Cart.objects.filter(user=user).last()
-        items = last_cart.items.all()
-        """Se fija si los items del carrito tienen suficiente stock"""
-        for item in items:
-            product_stock = Product.objects.get(pk=item.id).stock
-            """print("item.quantity: ", item.quantity)
-            print("product_stock: ", product_stock)"""
-            if item.quantity > product_stock:
-                print("No hay suficiente cantidad del producto ", Product.objects.get(pk=item.id).title)
-                return Response(status=status.HTTP_400_BAD_REQUEST,
-                                data={"Status": "400", "Message": "No hay stock disponible del producto"})
-        """Cambia el estado del carrito para cerrarlo"""
-        last_cart.status = True
-        return Response(status=status.HTTP_200_OK, data={"OK"})

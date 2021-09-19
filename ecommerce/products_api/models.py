@@ -11,7 +11,6 @@ class Product(models.Model):
     def stock(self):
         sales = self.sales.filter(cart__status=True).aggregate(total=models.Sum('quantity')).get('total')
         sales = 0 if not sales else sales
-        print("sales: ", sales)
         purchases = self.purchases.aggregate(total=models.Sum('quantity')).get('total')
         purchases = 0 if not purchases else purchases
         return purchases - sales
