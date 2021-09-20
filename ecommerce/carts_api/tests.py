@@ -65,11 +65,7 @@ class ProductTest(TestCase):
         self.assertEqual(self.producto_2.stock, 50)
         """Corremos el test test_shop_cart para que reflejen las compras del producto_2"""
         self.test_shop_cart()
-        """Cerramos el carrito para que se actualice el stock"""
+        """Cerramos el carrito de compras para que se actualiza el stock"""
         self.browser.put('/api/carts/', content_type="application/json")
         self.assertEqual(self.producto_1.stock, 23)
         self.assertEqual(self.producto_2.stock, 48)
-
-
-
-

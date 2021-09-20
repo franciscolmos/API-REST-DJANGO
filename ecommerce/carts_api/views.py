@@ -33,8 +33,10 @@ class CartViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_200_OK, data={"Status": "OK", "Message": "El carrito ya se encuentra cerrado"})
         items = last_cart.items.all()
         """Se fija si los items del carrito tienen suficiente stock"""
+
         for item in items:
-            product_stock = Product.objects.get(pk=item.id).stock
+            print("item---->", item)
+            product_stock = item.product.stock
             """print("item.quantity: ", item.quantity)
             print("product_stock: ", product_stock)"""
             if item.quantity > product_stock:
